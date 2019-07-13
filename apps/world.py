@@ -86,13 +86,12 @@ layout = html.Div([
         ], style={'width': '48%', 'display': 'inline-block', 'float': 'right'})
     ]),
     
-    html.A('@eliasdabbas', href='https://www.twitter.com/eliasdabbas'), 
+    html.A('UNC Data Analytics - Group Project (Viral, Abla, Alex, Jordy)'),
     html.P(),
-    html.Content('  Code: '),
-    html.A('github.com/eliasdabbas/terrorism', href='https://github.com/eliasdabbas/terrorism'), html.Br(), html.Br(),
+    html.Br(), html.Br(),
     html.Content('Data: National Consortium for the Study of Terrorism and Responses to Terrorism (START). (2016). '
                  'Global Terrorism Database [Data file]. Retrieved from https://www.start.umd.edu/gtd')
-    
+
 ], style={'background-color': '#eeeeee', 'font-family': 'Palatino'})
 
 @app.callback(Output('by_year_country_world', 'figure'),
