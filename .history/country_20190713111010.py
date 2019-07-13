@@ -166,7 +166,7 @@ def plot_cities_map(provstates, cities, date_range, country):
                                 plot_bgcolor='#eeeeee',
                                 width=1420,
                                 height=650,
-                                annotations=[{'text': '<a href="Viral Vakani"></a>', 'x': .2, 'y': -.1,
+                                annotations=[{'text': '<a href="https://www.twitter.com">@eliasdabbas</a>', 'x': .2, 'y': -.1, 
                                               'showarrow': False},
                                              {'text': 'Data: START Consortium', 'x': .2, 'y': -.13, 'showarrow': False}],                            
                       geo={'showland': True, 'landcolor': '#eeeeee',
@@ -255,7 +255,7 @@ def plot_perps_map(perps, date_range, country):
                       plot_bgcolor='#eeeeee',
                       width=1420,
                       height=650,
-                      annotations=[{'text': '<a href="Viral Vakani"></a>', 'x': .2, 'y': -.1,
+                      annotations=[{'text': '<a href="https://www.twitter.com">@eliasdabbas</a>', 'x': .2, 'y': -.1, 
                                     'showarrow': False},
                                    {'text': 'Data: START Consortium', 'x': .2, 'y': -.13, 'showarrow': False}],                            
                       geo={'showland': True, 'landcolor': '#eeeeee',
@@ -274,7 +274,7 @@ def plot_perps_map(perps, date_range, country):
                                         })
 }
 
-# @app.callback(Output('actual_date_perp', 'children'),
-#              [Input('date_range_perp', 'value')])
-# def show_date_perp(daterange):
-#     return datetime.datetime.strftime(mydates[daterange[0]], '%b, %Y'), ' - ', datetime.datetime.strftime(mydates[daterange[1]], '%b, %Y')
+@app.callback(Output('actual_date_perp', 'children'),
+             [Input('date_range_perp', 'value')])
+def show_date_perp(daterange):
+    return datetime.datetime.strftime(mydates[daterange[0]], '%b, %Y'), ' - ', datetime.datetime.strftime(mydates[daterange[1]], '%b, %Y')

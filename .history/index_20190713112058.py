@@ -1,4 +1,3 @@
-import dash
 from dash.dependencies import Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
@@ -12,13 +11,12 @@ app.layout = html.Div([
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content')
 ])
-
+print(country.terrorisom)
 @app.callback(Output('page-content', 'children'),
              [Input('url', 'pathname')])
 def display_page(pathname):
     if pathname == '/country':
         return country.layout
-
     else:
         return world.layout
 
