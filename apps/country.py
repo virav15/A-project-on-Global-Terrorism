@@ -25,22 +25,22 @@ terrorism['date'] = [pd.datetime(y, m, d) for y, m, d in zip(terrorism['iyear'],
 
 layout = html.Div([ 
     html.Br(),
-    html.H3('Global Terrorism Database: 1996 - 2016'),
-    html.A('Explore Countries', href='/'),
+    html.H3('Global Terrorism Database: 1970 - 2016'),
+    html.A('Explore Countries', href='/'),    
     dcc.Location(id='url_country', refresh=False),
     html.Div([
-        dcc.Dropdown(id='country_list',
+        dcc.Dropdown(id='country_list', 
                      value='',
                      options=[{'label': c, 'value': c}
                               for c in sorted(terrorism['country_txt'].unique())]),
-
+        
     ], style={'width': '40%', 'margin-left': '30%'}),
-    html.H2(id='page_title'),
+    html.H2(id='page_title'), 
     dcc.Graph(id='map_country',
               figure={'data': [go.Scattergeo(lon=[], lat=[])]},
               config={'displayModeBar': False}),
     html.Div([
-        dcc.RangeSlider(id='date_range',
+        dcc.RangeSlider(id='date_range', 
                         min=0,
                         max=563,
                         value=[480, 563]),
@@ -63,15 +63,15 @@ layout = html.Div([
         html.Br(),
 
     ], style={'background-color': '#eeeeee', 'margin-left': '7%', 'margin-right': '7%'}),
-    html.Br(),
-
+    html.Br(),  
+    
     dcc.Graph(id='city_barchart',
               config={'displayModeBar': False}),
-
+    
     dcc.Graph(id='perp_graph',
               config={'displayModeBar': False}),
     html.Div([
-        dcc.RangeSlider(id='date_range_perp',
+        dcc.RangeSlider(id='date_range_perp', 
                         min=0,
                         max=563,
                         value=[480, 563]),
@@ -115,13 +115,13 @@ def set_perpetrator_options(country):
 
 
 @app.callback(Output('map_country', 'figure'),
-             [Input('provstate', 'value'),
-              Input('cities', 'value'),
+             [Input('provstate', 'value'), 
+              Input('cities', 'value'), 
               Input('date_range', 'value'),
               Input('country_list', 'value')])
 def plot_cities_map(provstates, cities, date_range, country):
     country = '' or country
-    df = terrorism[(terrorism['provstate'].isin(provstates) | terrorism['city'].isin(cities)) &
+    df = terrorism[(terrorism['provstate'].isin(provstates) | terrorism['city'].isin(cities)) & 
                     (terrorism['country_txt'] == country) &
                     terrorism['date'].between(mydates[date_range[0]], mydates[date_range[1]])]
 
@@ -134,12 +134,12 @@ def plot_cities_map(provstates, cities, date_range, country):
                                    hovertext=df[df['provstate'] == c]['city'].astype(str) + ', ' + df[df['provstate'] == c]['country_txt'].astype(str)+ '<br>' +
                                              [datetime.datetime.strftime(d, '%d %b, %Y') for d in df[df['provstate'] == c]['date']] + '<br>' +
                                              'Perpetrator: ' + df[df['provstate'] == c]['gname'].astype(str) + '<br>' +
-                                             'Target: ' + df[df['provstate'] == c]['target1'].astype(str) + '<br>' +
+                                             'Target: ' + df[df['provstate'] == c]['target1'].astype(str) + '<br>' + 
                                              'Deaths: ' + df[df['provstate'] == c]['nkill'].astype(str) + '<br>' +
-                                             'Injured: ' + df[df['provstate'] == c]['nwound'].astype(str) + '<br><br>' +
+                                             'Injured: ' + df[df['provstate'] == c]['nwound'].astype(str) + '<br><br>' + 
                                              ['<br>'.join(textwrap.wrap(x, 40)) if not isinstance(x, float) else '' for x in df[df['provstate'] == c]['summary']])
                          for c in provstates] +
-
+            
                     [go.Scattergeo(lon=[x + random.gauss(0.04, 0.03) for x in df[df['city'] == c]['longitude']],
                                    lat=[x + random.gauss(0.04, 0.03) for x in df[df['city'] == c]['latitude']],
                                    name=c,
@@ -149,14 +149,14 @@ def plot_cities_map(provstates, cities, date_range, country):
                                    hovertext=df[df['city'] == c]['city'].astype(str) + ', ' + df[df['city'] == c]['country_txt'].astype(str)+ '<br>' +
                                              [datetime.datetime.strftime(d, '%d %b, %Y') for d in df[df['city'] == c]['date']] + '<br>' +
                                              'Perpetrator: ' + df[df['city'] == c]['gname'].astype(str) + '<br>' +
-                                             'Target: ' + df[df['city'] == c]['target1'].astype(str) + '<br>' +
+                                             'Target: ' + df[df['city'] == c]['target1'].astype(str) + '<br>' + 
                                              'Deaths: ' + df[df['city'] == c]['nkill'].astype(str) + '<br>' +
-                                             'Injured: ' + df[df['city'] == c]['nwound'].astype(str) + '<br><br>' +
+                                             'Injured: ' + df[df['city'] == c]['nwound'].astype(str) + '<br><br>' + 
                                              ['<br>'.join(textwrap.wrap(x, 40)) if not isinstance(x, float) else '' for x in df[df['city'] == c]['summary']])
                          for c in cities],
             'layout': go.Layout(title='Terrorist Attacks in ' + country + '  ' +
-                                    datetime.datetime.strftime(mydates[date_range[0]], '%b, %Y') + ' - ' +
-                                    datetime.datetime.strftime(mydates[date_range[1]], '%b, %Y') + '<br>' +
+                                    datetime.datetime.strftime(mydates[date_range[0]], '%b, %Y') + ' - ' + 
+                                    datetime.datetime.strftime(mydates[date_range[1]], '%b, %Y') + '<br>' + 
                                     ', '.join(list(provstates)) + ' ' + ', '.join(list(cities)),
                                 font={'family': 'Palatino'},
                                 titlefont={'size': 22},
@@ -164,9 +164,9 @@ def plot_cities_map(provstates, cities, date_range, country):
                                 plot_bgcolor='#eeeeee',
                                 width=1420,
                                 height=650,
-                                annotations=[{'text': 'gtd', 'x': .2, 'y': -.1,
+                                annotations=[{'text': '<a href="https://www.twitter.com">@eliasdabbas</a>', 'x': .2, 'y': -.1, 
                                               'showarrow': False},
-                                             {'text': 'Data: START Consortium', 'x': .2, 'y': -.13, 'showarrow': False}],
+                                             {'text': 'Data: START Consortium', 'x': .2, 'y': -.13, 'showarrow': False}],                            
                       geo={'showland': True, 'landcolor': '#eeeeee',
                            'countrycolor': '#cccccc',
                            'showsubunits': True,
@@ -175,7 +175,7 @@ def plot_cities_map(provstates, cities, date_range, country):
                            'showcountries': True,
                            'oceancolor': '#eeeeee',
                            'showocean': True,
-                           'showcoastlines': True,
+                           'showcoastlines': True, 
                            'showframe': False,
                            'coastlinecolor': '#cccccc',
                            'lonaxis': {'range': [df['longitude'].min()-1, df['longitude'].max()+1]},
@@ -189,12 +189,12 @@ def show_date(daterange):
     return datetime.datetime.strftime(mydates[daterange[0]], '%b, %Y'), ' - ', datetime.datetime.strftime(mydates[daterange[1]], '%b, %Y')
 
 @app.callback(Output('city_barchart', 'figure'),
-             [Input('provstate', 'value'),
-              Input('cities', 'value'),
+             [Input('provstate', 'value'), 
+              Input('cities', 'value'), 
               Input('date_range', 'value'),
               Input('country_list', 'value')])
 def plot_cities_barchart(provstates, cities, date_range, country):
-    df_init = terrorism[(terrorism['provstate'].isin(provstates) | terrorism['city'].isin(cities)) &
+    df_init = terrorism[(terrorism['provstate'].isin(provstates) | terrorism['city'].isin(cities)) & 
                         (terrorism['country_txt'] == country) &
                         terrorism['date'].between(mydates[date_range[0]], mydates[date_range[1]])]
     df = df_init.groupby(['iyear','provstate', 'city'], as_index=False).count()[['iyear','provstate', 'city', 'eventid']]
@@ -204,29 +204,29 @@ def plot_cities_barchart(provstates, cities, date_range, country):
     return {'data': [go.Bar(x=df_provstate[df_provstate['provstate'] == prov]['iyear'],
                             y=df_provstate[df_provstate['provstate'] == prov]['eventid'],
                             name=prov)
-                     for prov in provstates] +
-
+                     for prov in provstates] + 
+            
                     [go.Bar(x=df_city[df_city['city'] == city]['iyear'],
                             y=df_city[df_city['city'] == city]['eventid'],
                             name=city)
                      for city in cities],
-            'layout': go.Layout(title='Terrorist Attacks in '  + country + '   ' +
-                                    datetime.datetime.strftime(mydates[date_range[0]], '%b, %Y') + ' - ' +
+            'layout': go.Layout(title='Terrorist Attacks in '  + country + '   ' + 
+                                    datetime.datetime.strftime(mydates[date_range[0]], '%b, %Y') + ' - ' + 
                                     datetime.datetime.strftime(mydates[date_range[1]], '%b, %Y') + '<br>' +
-                                    ', '.join(list(provstates) + list(cities)),
+                                    ', '.join(list(provstates) + list(cities)), 
                                 plot_bgcolor='#eeeeee',
                                 paper_bgcolor='#eeeeee',
                                 font={'family': 'Palatino'})
 }
 
 @app.callback(Output('perp_graph', 'figure'),
-             [Input('perpetrators', 'value'),
+             [Input('perpetrators', 'value'), 
               Input('date_range_perp', 'value'),
               Input('country_list', 'value')])
 def plot_perps_map(perps, date_range, country):
     country = '' or country
-    df = terrorism[terrorism['gname'].isin(perps) &
-                  (terrorism['country_txt'] == country)  &
+    df = terrorism[terrorism['gname'].isin(perps) & 
+                  (terrorism['country_txt'] == country)  & 
                    terrorism['date'].between(mydates[date_range[0]], mydates[date_range[1]])]
 
     return {'data': [go.Scattergeo(lon=df[df['gname'] == perp]['longitude'],
@@ -238,14 +238,14 @@ def plot_perps_map(perps, date_range, country):
                                    hovertext=df[df['gname'] == perp]['city'].astype(str) + ', ' + df[df['gname'] == perp]['country_txt'].astype(str)+ '<br>' +
                                              [datetime.datetime.strftime(d, '%d %b, %Y') for d in df[df['gname'] == perp]['date']] + '<br>' +
                                              'Perpetrator: ' + df[df['gname'] == perp]['gname'].astype(str) + '<br>' +
-                                             'Target: ' + df[df['gname'] == perp]['target1'].astype(str) + '<br>' +
+                                             'Target: ' + df[df['gname'] == perp]['target1'].astype(str) + '<br>' + 
                                              'Deaths: ' + df[df['gname'] == perp]['nkill'].astype(str) + '<br>' +
-                                             'Injured: ' + df[df['gname'] == perp]['nwound'].astype(str) + '<br><br>' +
+                                             'Injured: ' + df[df['gname'] == perp]['nwound'].astype(str) + '<br><br>' + 
                                              ['<br>'.join(textwrap.wrap(x, 40)) if not isinstance(x, float) else '' for x in df[df['gname'] == perp]['summary']])
                      for perp in perps],
             'layout': go.Layout(title='Terrorist Attacks in ' + country + '  ' +
-                                datetime.datetime.strftime(mydates[date_range[0]], '%b, %Y') + ' - ' +
-                                datetime.datetime.strftime(mydates[date_range[1]], '%b, %Y') + '<br>' +
+                                datetime.datetime.strftime(mydates[date_range[0]], '%b, %Y') + ' - ' + 
+                                datetime.datetime.strftime(mydates[date_range[1]], '%b, %Y') + '<br>' + 
                                 '<br>'.join(textwrap.wrap(', '.join(perps), 110)),
                       font={'family': 'Palatino'},
                       titlefont={'size': 22},
@@ -253,7 +253,9 @@ def plot_perps_map(perps, date_range, country):
                       plot_bgcolor='#eeeeee',
                       width=1420,
                       height=650,
-
+                      annotations=[{'text': '<a href="https://www.twitter.com">@eliasdabbas</a>', 'x': .2, 'y': -.1, 
+                                    'showarrow': False},
+                                   {'text': 'Data: START Consortium', 'x': .2, 'y': -.13, 'showarrow': False}],                            
                       geo={'showland': True, 'landcolor': '#eeeeee',
                            'countrycolor': '#cccccc',
                            'showsubunits': True,
@@ -262,7 +264,7 @@ def plot_perps_map(perps, date_range, country):
                            'showcountries': True,
                            'oceancolor': '#eeeeee',
                            'showocean': True,
-                           'showcoastlines': True,
+                           'showcoastlines': True, 
                            'showframe': False,
                            'coastlinecolor': '#cccccc',
                            'lonaxis': {'range': [df['longitude'].min()-1, df['longitude'].max()+1]},
