@@ -164,7 +164,7 @@ def plot_cities_map(provstates, cities, date_range, country):
                                 plot_bgcolor='#eeeeee',
                                 width=1420,
                                 height=650,
-                                annotations=[{'text': '<a href="https://www.twitter.com">@eliasdabbas</a>', 'x': .2, 'y': -.1, 
+                                annotations=[{'text': '<a href=">UNC Data Analytics Boot Camp</a>', 'x': .2, 'y': -.1,
                                               'showarrow': False},
                                              {'text': 'Data: START Consortium', 'x': .2, 'y': -.13, 'showarrow': False}],                            
                       geo={'showland': True, 'landcolor': '#eeeeee',
@@ -175,7 +175,7 @@ def plot_cities_map(provstates, cities, date_range, country):
                            'showcountries': True,
                            'oceancolor': '#eeeeee',
                            'showocean': True,
-                           'showcoastlines': True, 
+                           'showcoastlines': True,
                            'showframe': False,
                            'coastlinecolor': '#cccccc',
                            'lonaxis': {'range': [df['longitude'].min()-1, df['longitude'].max()+1]},
@@ -189,12 +189,12 @@ def show_date(daterange):
     return datetime.datetime.strftime(mydates[daterange[0]], '%b, %Y'), ' - ', datetime.datetime.strftime(mydates[daterange[1]], '%b, %Y')
 
 @app.callback(Output('city_barchart', 'figure'),
-             [Input('provstate', 'value'), 
+             [Input('provstate', 'value'),
               Input('cities', 'value'), 
               Input('date_range', 'value'),
               Input('country_list', 'value')])
 def plot_cities_barchart(provstates, cities, date_range, country):
-    df_init = terrorism[(terrorism['provstate'].isin(provstates) | terrorism['city'].isin(cities)) & 
+    df_init = terrorism[(terrorism['provstate'].isin(provstates) | terrorism['city'].isin(cities)) &
                         (terrorism['country_txt'] == country) &
                         terrorism['date'].between(mydates[date_range[0]], mydates[date_range[1]])]
     df = df_init.groupby(['iyear','provstate', 'city'], as_index=False).count()[['iyear','provstate', 'city', 'eventid']]
@@ -204,16 +204,16 @@ def plot_cities_barchart(provstates, cities, date_range, country):
     return {'data': [go.Bar(x=df_provstate[df_provstate['provstate'] == prov]['iyear'],
                             y=df_provstate[df_provstate['provstate'] == prov]['eventid'],
                             name=prov)
-                     for prov in provstates] + 
-            
+                     for prov in provstates] +
+
                     [go.Bar(x=df_city[df_city['city'] == city]['iyear'],
                             y=df_city[df_city['city'] == city]['eventid'],
                             name=city)
                      for city in cities],
-            'layout': go.Layout(title='Terrorist Attacks in '  + country + '   ' + 
+            'layout': go.Layout(title='Terrorist Attacks in '  + country + '   ' +
                                     datetime.datetime.strftime(mydates[date_range[0]], '%b, %Y') + ' - ' + 
                                     datetime.datetime.strftime(mydates[date_range[1]], '%b, %Y') + '<br>' +
-                                    ', '.join(list(provstates) + list(cities)), 
+                                    ', '.join(list(provstates) + list(cities)),
                                 plot_bgcolor='#eeeeee',
                                 paper_bgcolor='#eeeeee',
                                 font={'family': 'Palatino'})
@@ -253,9 +253,6 @@ def plot_perps_map(perps, date_range, country):
                       plot_bgcolor='#eeeeee',
                       width=1420,
                       height=650,
-                      annotations=[{'text': '<a href="https://www.twitter.com">@eliasdabbas</a>', 'x': .2, 'y': -.1, 
-                                    'showarrow': False},
-                                   {'text': 'Data: START Consortium', 'x': .2, 'y': -.13, 'showarrow': False}],                            
                       geo={'showland': True, 'landcolor': '#eeeeee',
                            'countrycolor': '#cccccc',
                            'showsubunits': True,
