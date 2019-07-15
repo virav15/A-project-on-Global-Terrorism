@@ -1,1 +1,1 @@
-web python index:server
+web python index:app
