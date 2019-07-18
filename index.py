@@ -15,7 +15,7 @@ app.layout = html.Div([
 @app.callback(Output('page-content', 'children'),
              [Input('url', 'pathname')])
 def display_page(pathname):
-    if pathname == 'apps/country':
+    if pathname == '/country':
         return country.layout
     else:
         return world.layout
